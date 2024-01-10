@@ -1,0 +1,35 @@
+<!-- Modal Ciudad -->
+<div class="modal fade" [id]="idModal" tabindex="-1" aria-labelledby="modalCiudadLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered ">
+      <div class="modal-content rounded-3">
+          <div class="modal-header bg-amarillo text-amarillo-header border-amarillo">
+              <label class="modal-title h5" id="modalCiudadLabel">Seleccionar <strong>{{tituloModal}}</strong></label>
+              <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close" ><i class="fas fa-close fa-lg text-amarillo-header"></i></button>
+          </div>
+          <div class="modal-body">
+              <div class="table-responsive">
+                  <table id="adCiudadTable" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover w-100 pt-2">
+                      <thead>
+                      <tr class="bg-gris-principal" >
+                          <th>Ciudad</th>
+                          <th>Provincia</th>
+                          <th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let ciudad of listadoCiudad;">
+                            <td>{{ciudad.asciiname}}</td>
+                            <td>{{ciudad.provincia}}</td>
+                            <td>
+                                <button class="btn btn-primary" (click)="selectCiudad(ciudad)">
+                                  <i class="fas fa-square-check" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

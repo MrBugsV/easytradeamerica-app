@@ -1,0 +1,94 @@
+<!-- Modal Categoria -->
+<div class="modal fade" [id]="idModal" tabindex="-1" aria-labelledby="modalCategoriaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered ">
+      <div class="modal-content rounded-3">
+          <div class="modal-body p-0">
+            <ul class="nav nav-tabs nav-justified" id="tabLogin">
+              <li class="nav-item active" [class.active]="tabActiva === 'login'">
+                <button class="nav-link active" [class.active]="tabActiva === 'login'" id="login-tab" (click)="changeTab('login')">Iniciar sesión</button>
+              </li>
+              <li class="nav-item" [class.active]="tabActiva === 'registro'">
+                <button class="nav-link" [class.active]="tabActiva === 'registro'" id="registro-tab" (click)="changeTab('registro')">Registrarse</button>
+              </li>
+            </ul>
+            <div class="tab-content p-3" id="myTabContent">
+              <form [formGroup]="formLogin">
+                <!-- TAB LOGIN -->
+                <div class="tab-pane fade show active" [hidden]="tabActiva !== 'login'" [class.show]="tabActiva === 'login'" id="login">
+                  <div class="row gy-2">
+                    <div class="col-12">
+                      <label for="usuarioLog" class="form-label">Usuario / Email</label>
+                      <input type="text" class="form-control" id="usuarioLog" formControlName="username" [ngClass]="validFormControl('username')">
+                      <div class="invalid-feedback">
+                        Este campo es obligatorio.
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <label for="passwordLog" class="form-label">Contraseña</label>
+                      <div class="input-group" [ngClass]="validFormControl('password')">
+                        <input [type]="banderaPassword?'password':'text'" class="form-control" [ngClass]="validFormControl('password')" id="passwordLog" formControlName="password">
+                        <button class="btn btn-outline-secondary" (click)="banderaPassword=!banderaPassword"><i class="fas" [ngClass]="banderaPassword?'fa-eye':'fa-eye-slash'"></i></button>
+                      </div>
+                      <div class="invalid-feedback">
+                        Este campo es obligatorio.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB REGISTRO -->
+                <div class="tab-pane fade" [hidden]="tabActiva !== 'registro'" [class.show]="tabActiva === 'registro'" id="registro">
+                  <div class="row gy-2">
+                    <div class="col-12">
+                      <label for="nombre" class="form-label">Nombres completos</label>
+                      <input type="text" class="form-control" id="nombre" formControlName="name" [ngClass]="validFormControl('name')">
+                      <div class="invalid-feedback">
+                        Este campo es obligatorio.
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <label for="usuarioReg" class="form-label">Nombre de usuario</label>
+                      <input type="text" class="form-control" id="usuarioReg" formControlName="username" [ngClass]="validFormControl('username')">
+                      <div class="invalid-feedback">
+                        Este campo es obligatorio.
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <label for="phone" class="form-label">Teléfono</label>
+                      <input type="text" class="form-control" id="phone" formControlName="phone" [ngClass]="validFormControl('phone')">
+                    </div>
+                    <div class="col-12">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="text" class="form-control" id="email" formControlName="email" [ngClass]="validFormControl('email')">
+                      <div class="invalid-feedback" *ngIf="validEmailControl('email')=='required'">
+                        Este campo es obligatorio.
+                      </div>
+                      <div class="invalid-feedback" *ngIf="validEmailControl('email')=='email'">
+                        Email invalido
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <label for="passwordReg" class="form-label">Contraseña</label>
+                      <div class="input-group" [ngClass]="validFormControl('password')">
+                        <input [type]="banderaPassword?'password':'text'" class="form-control" [ngClass]="validFormControl('password')" id="passwordReg" formControlName="password">
+                        <button class="btn btn-outline-secondary" (click)="banderaPassword=!banderaPassword"><i class="fas" [ngClass]="banderaPassword?'fa-eye':'fa-eye-slash'"></i></button>
+                      </div>
+                      <div class="invalid-feedback">
+                        Este campo es obligatorio.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="row px-4 pb-4">
+              <div class="col-12">
+                <button type="button" class="btn btn-primary col-12" (click)="onLogin()" *ngIf="tabActiva=='login'"><i class="fas fa-right-to-bracket"></i> Iniciar Sesión</button>
+                <button type="button" class="btn btn-primary col-12" (click)="onRegister()" *ngIf="tabActiva=='registro'"><i class="fas fa-pen-to-square"></i> Registrarse</button>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>

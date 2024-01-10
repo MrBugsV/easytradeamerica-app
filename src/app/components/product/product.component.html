@@ -1,0 +1,322 @@
+<div class="row w-100 m-0 py-3 px-sm-7 px-2 d-block">
+  <form [formGroup]="formProducto">
+    <div class="row pb-3 gy-3" *ngIf="action=='buy'">
+      <div class="col-12 text-center">
+        <h1>{{formProducto.value['product_name']}}</h1>
+      </div>
+      <div class="col-12 text-center" *ngIf="formProducto.value['urgent']">
+        <h3>Tiempo limitado</h3>
+      </div>
+      <div id="carouselAdjuntos" class="carousel slide col-12 col-sm-6 px-4" data-bs-ride="true">
+        <div class="carousel-indicators mb-1 mb-sm-4">
+          <button *ngFor="let producto of listaProductos; let i = index" type="button" data-bs-target="#carouselAdjuntos" [attr.data-bs-slide-to]="i" class="active" aria-current="true" [attr.aria-label]="'Slide '+i"></button>
+        </div>
+        <div class="carousel-inner">
+          <div *ngFor="let productoStr of listaProductos; let i = index" class="carousel-item" [ngClass]="{'active': i == 0 }">
+            <img [src]="'../../../assets/images/productos/'+productoStr" class="d-block w-100" [alt]="productoStr">
+          </div>
+        </div>
+        <button class="carousel-control-prev ps-4" type="button" data-bs-target="#carouselAdjuntos" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next pe-4" type="button" data-bs-target="#carouselAdjuntos" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Siguiente</span>
+        </button>
+      </div>
+      <div class="col-12 col-sm-6">
+        <div class="row g-2">
+          <div class="col-12">
+            <h5 class="form-label">Ciudad</h5>
+            <input type="text" class="form-control" id="city_name" formControlName="city_name" readonly>
+          </div>
+          <div class="col-12">
+            <h5 class="form-label">Descripción</h5>
+            <textarea class="form-control" id="description" formControlName="description" readonly></textarea>
+          </div>
+          <div class="col-12">
+            <h5 class="form-label">Precio {{formProducto.value['negotiable']?"Negociable":""}}</h5>
+            <input type="text" class="form-control" id="price" formControlName="price" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <h5 class="form-label">Etiquetas</h5>
+        <input type="text" class="form-control" id="tag" formControlName="tag" readonly>
+      </div>
+      <div class="col-12 col-sm-6">
+        <h2 class="form-label">Info del Vendedor</h2>
+        <div class="row g-2">
+          <div class="col-12">
+            <h5 class="form-label">Nombre</h5>
+            <input type="text" class="form-control" id="nombre" formControlName="nombre" readonly>
+          </div>
+          <div class="col-12">
+            <h5 class="form-label">Email</h5>
+            <input type="text" class="form-control" id="email" formControlName="email" readonly>
+          </div>
+          <div class="col-12" *ngIf="formProducto.value['hide_phone']">
+            <h5 class="form-label">Telefono</h5>
+            <input type="text" class="form-control" id="phone" formControlName="phone" readonly>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row pb-3" *ngIf="action=='new'||action=='edit'">
+      <h2 class="text-center pb-2">{{action=="new"?"Prublique":"Edite"}} su anuncio</h2>
+      <div class="col-12 col-sm-6 py-1">
+        <div class="input-group" [ngClass]="validFormControl('category_name')">
+          <span class="input-group-text">Categoria</span>
+          <input type="text" class="form-control" id="category_name" [ngClass]="validFormControl('category_name')" formControlName="category_name" readonly (click)="modalCategoria()">
+          <button type="button" class="btn btn-warning" (click)="modalCategoria()"><i class="fas fa-magnifying-glass"></i></button>
+        </div>
+        <div class="invalid-feedback">
+          Este campo es obligatorio.
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 py-1">
+        <div class="input-group" [ngClass]="validFormControl('sub_category_name')">
+          <span class="input-group-text">Subcategoria</span>
+          <input type="text" class="form-control" id="sub_category_name" [ngClass]="validFormControl('sub_category_name')" formControlName="sub_category_name" readonly (click)="modalSubcategoria()">
+          <button type="button" class="btn btn-warning" (click)="modalSubcategoria()"><i class="fas fa-magnifying-glass"></i></button>
+        </div>
+        <div class="invalid-feedback">
+          Este campo es obligatorio.
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 pt-3 pb-1">
+        <h2 class="form-label">Titulo</h2>
+        <input type="text" class="form-control" id="product_name" [ngClass]="validFormControl('product_name')" formControlName="product_name" placeholder="Titulo para su publicidad">
+        <div class="invalid-feedback">
+          Este campo es obligatorio.
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 pt-3 pb-1">
+        <h2 class="form-label">Ciudad</h2>
+        <div class="input-group" [ngClass]="validFormControl('city_name')" (click)="modalCiudad()">
+          <input type="text" class="form-control" id="city_name" [ngClass]="validFormControl('city_name')" formControlName="city_name" readonly placeholder="Buscar...">
+          <button type="button" class="btn btn-warning"><i class="fas fa-magnifying-glass"></i></button>
+        </div>
+        <div class="invalid-feedback">
+          Este campo es obligatorio.
+        </div>
+      </div>
+      <div class="col-12 pt-3 pb-1">
+        <h3 class="form-label">Descripción</h3>
+        <textarea class="form-control" id="description" [ngClass]="validFormControl('description')" formControlName="description" placeholder="Cuéntanos mas sobre tu publicidad"></textarea>
+        <div class="invalid-feedback">
+          Este campo es obligatorio.
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 pt-3 pb-1">
+        <h3 class="form-label" [ngClass]="validFormControl('archivos')">Adjuntos</h3>
+        <div class="invalid-feedback">
+          Este campo es obligatorio.
+        </div>
+        <div class="input-group col-12 col-sm-4">
+          <label class="btn btn-info m-0 rounded d-flex d-sm-none align-items-center justify-content-center" for="archivos"><p class="px-2 m-0 text-center"><i class="fas fa-upload"></i></p></label>
+          <label class="btn btn-outline-info bg-light m-0 rounded d-none d-sm-flex align-items-center justify-content-center p-sm-5" for="archivos"><p class="px-2 m-0 text-center text-black"><i class="fas fa-circle-plus fa-2xl"></i></p></label>
+          <input type="file" class="form-control visually-hidden" id="archivos" title="Archivos" aria-describedby="btnAdjuntos" (change)="uploadFile($event)" formControlName="archivos" accept="image/*" multiple/> 
+        </div>
+        <div id="carouselAdjuntos" class="carousel slide col-12 my-3 px-4" data-bs-ride="true" *ngIf="listaAdjuntos.length>0">
+          <div class="carousel-indicators mb-1">
+            <button *ngFor="let archivo of listaAdjuntos; let i = index" type="button" data-bs-target="#carouselAdjuntos" [attr.data-bs-slide-to]="i" [ngClass]="{'active': i == 0 }" aria-current="true" [attr.aria-label]="'Slide '+i"></button>
+          </div>
+          <div class="carousel-inner">
+            <div *ngFor="let archivo of listaAdjuntos; let i = index" class="carousel-item" [ngClass]="{'active': i == 0 }">
+              <img [src]="archivo.contenido" class="d-block w-100">
+              <div class="carousel-caption row justify-content-evenly">
+                <div class="text-white col-6">
+                  <div class="row justify-content-center rounded rounded-4 bg-carousel">
+                    <div class="col-12">
+                      <label class="form-check-label" [for]="'switchAdjunto'+i">Principal</label>
+                    </div>
+                    <div class="form-check form-switch col-12 d-flex justify-content-center">
+                      <input class="form-check-input" type="radio" name="radiosAdjunto" [id]="'switchAdjunto'+i" [value]="i" [formControl]="archivo.principal">
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-danger col-3" data-bs-target="#carouselAdjuntos" data-bs-slide-to="0" (click)="onBorrarAdjunto(i)"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev ps-4" type="button" data-bs-target="#carouselAdjuntos" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next pe-4" type="button" data-bs-target="#carouselAdjuntos" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
+        </div>
+      </div>
+      <div class="col-12 pt-3 pb-1">
+        <h2 class="form-label">Información Adicional</h2>
+        <div class="row gy-2">
+          <div class="col-12 col-sm-6">
+            <div class="input-group" [ngClass]="validFormControl('price')">
+              <span class="input-group-text">Precio $</span>
+              <input type="number" class="form-control" id="price" formControlName="price" [ngClass]="validFormControl('price')" placeholder="ejm 100.00">
+              <div class="input-group-text">
+                <input class="form-check-input mt-0" type="checkbox" id="negotiable" formControlName="negotiable">
+                <label class="form-check-label ps-2" for="negotiable">
+                  Negociable
+                </label>
+              </div>
+            </div>
+            <div class="invalid-feedback">
+              Este campo es obligatorio.
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="input-group" [ngClass]="validFormControl('phone')">
+              <span class="input-group-text">Teléfono<i class="ps-1 fas fa-phone"></i></span>
+              <input type="text" class="form-control" id="phone" formControlName="phone" [ngClass]="validFormControl('phone')" placeholder="ejm 0999999999">
+              <div class="input-group-text">
+                <input class="form-check-input mt-0" type="checkbox" id="hide_phone" formControlName="hide_phone">
+                <label class="form-check-label ps-2" for="hide_phone">
+                  Ocultar
+                </label>
+              </div>
+            </div>
+            <div class="invalid-feedback">
+              Este campo es obligatorio.
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="row justify-content-center">
+              <div class="input-group col-12" [ngClass]="validFormControl('tag')">
+                <span class="input-group-text">Etiquetas<i class="ps-1 fas fa-tags"></i></span>
+                <input type="text" class="form-control" id="tag" formControlName="tag" [ngClass]="validFormControl('tag')" placeholder="ejm etq1,etq2">
+              </div>
+              <div class="invalid-feedback">
+                Este campo es obligatorio.
+              </div>
+              <label class="col-12 text-center" for="tag">
+                Ingrese las etiquetas separadas por comas
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 pt-3 pb-1">
+        <h2 class="form-label" [ngClass]="validOptionControl('opcion',['featured','urgent','highlight'])">Opciones de anuncio</h2>
+        <div class="invalid-feedback">
+          Este campo es obligatorio.
+        </div>
+        <div class="row gy-2">
+          <div class="btn-group-vertical col-12" role="group">
+            <input type="radio" class="btn-check" name="opcion" id="btn-basico" value="basico" autocomplete="off" formControlName="opcion">
+            <label class="btn btn-outline-primary" for="btn-basico" (click)="onChangeBasico()">
+              <div class="row align-items-center gx-3">
+                <div class="col-3"><i class="fas fa-rectangle-ad icon-opcion-anuncio"></i></div>
+                <div class="col-5 text-opcion-anuncio text-justify"><h3>Basico</h3>Su anuncio se publicara cuando un revisor lo apruebe</div>
+                <div class="col-4 h3">Gratuito</div>
+              </div>
+            </label>
+            <input type="radio" class="btn-check" name="opcion" id="btn-especial" value="especial" autocomplete="off" formControlName="opcion">
+            <label class="btn btn-outline-primary" for="btn-especial">
+              <div class="row align-items-center gx-3">
+                <div class="col-3"><i class="fas fa-hand-holding-dollar icon-opcion-anuncio"></i></div>
+                <div class="col-5 text-opcion-anuncio text-justify"><h3>Premium</h3>Puede seleccionar una o varias opciones de mejoras para su anuncio</div>
+                <div class="col-4 h3">Paga</div>
+              </div>
+            </label>
+            <div class="accordion rounded-top-0" id="acordionEspecial">
+              <div class="accordion-item border-0 rounded-top-0">
+                <div id="collapseEspecial" class="accordion-collapse collapse rounded-top-0" [ngClass]="{'show':formProducto.value['opcion']=='especial'}">
+                  <div class="accordion-body py-0 pe-0">
+                    <div class="btn-group-vertical col-12" role="group">
+                      <input type="checkbox" class="btn-check" id="btn-featured" formControlName="featured" autocomplete="off" (change)="onChangePrice()">
+                      <label class="btn btn-outline-warning rounded-top-0" for="btn-featured">
+                        <div class="row align-items-center gx-3">
+                          <div class="col-3"><i [ngClass]="formProducto.value['featured']?'fas':'far'" class="fa-star icon-opcion-anuncio"></i></div>
+                          <div class="col-5 text-opcion-anuncio text-justify"><h3>Destacado</h3>El anuncio se mostrara en "Anuncios destacados"</div>
+                          <div class="col-4 h5">$1.25 para 10 dias</div>
+                        </div>
+                      </label>
+                      <input type="checkbox" class="btn-check" id="btn-urgent" formControlName="urgent" autocomplete="off" (change)="onChangePrice()">
+                      <label class="btn btn-outline-danger" for="btn-urgent">
+                        <div class="row align-items-center gx-3">
+                          <div class="col-3"><i class="fas fa-triangle-exclamation icon-opcion-anuncio"></i></div>
+                          <div class="col-5 text-opcion-anuncio text-justify"><h3>Urgente</h3>El anuncio mostrara que su publicidad es de tiempo limitado</div>
+                          <div class="col-4 h5">$4.32 para 20 dias</div>
+                        </div>
+                      </label>
+                      <input type="checkbox" class="btn-check" id="btn-highlight" formControlName="highlight" autocomplete="off" (change)="onChangePrice()">
+                      <label class="btn btn-outline-info" for="btn-highlight">
+                        <div class="row align-items-center gx-3">
+                          <div class="col-3"><i [ngClass]="formProducto.value['highlight']?'fas':'far'" class="fa-lightbulb icon-opcion-anuncio"></i></div>
+                          <div class="col-5 text-opcion-anuncio text-justify"><h3>Realce</h3>El anuncio resaltara en la busqueda</div>
+                          <div class="col-4 h5">$3.32 para 30 dias</div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 pt-3 pb-1" *ngIf="usuario">
+        <h2 class="form-label">Información del Vendedor</h2>
+        <div class="row gy-2">
+          <div class="col-12">
+            <div class="input-group" [ngClass]="validFormControl('nombre')">
+              <span class="input-group-text">Nombre</span>
+              <input type="text" class="form-control" id="nombre" [ngClass]="validFormControl('nombre')" formControlName="nombre">
+            </div>
+            <div class="invalid-feedback">
+              Este campo es obligatorio.
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="input-group" [ngClass]="validFormControl('email')">
+              <span class="input-group-text">Email @</span>
+              <input type="text" class="form-control" id="email" [ngClass]="validFormControl('email')" formControlName="email">
+            </div>
+            <div class="invalid-feedback" *ngIf="validEmailControl('email')=='required'">
+              Este campo es obligatorio.
+            </div>
+            <div class="invalid-feedback" *ngIf="validEmailControl('email')=='email'">
+              Email invalido
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 py-2">
+        <div class="row align-items-center">
+          <div class="col-6 col-sm-2" *ngIf="formProducto.value['opcion']=='basico'&&this.action=='new'">
+            <button type="button" class="btn btn-primary col-12" (click)="onPublicar()"><i class="fas fa-share-from-square"></i> Publicar</button>
+          </div>
+          <div class="col-7 col-sm-4" *ngIf="formProducto.value['opcion']=='especial'&&this.action=='new'">
+            <button type="button" class="btn btn-primary col-12" (click)="modalPago()"><i class="fas fa-share-from-square"></i> Pagar y publicar</button>
+          </div>
+          <div class="col-6 col-sm-2" *ngIf="formProducto.value['opcion']=='basico'&&this.action=='edit'">
+            <button type="button" class="btn btn-primary col-12" (click)="onPublicar()"><i class="fas fa-share-from-square"></i> Editar</button>
+          </div>
+          <div class="col-7 col-sm-4" *ngIf="formProducto.value['opcion']=='especial'&&this.action=='edit'">
+            <button type="button" class="btn btn-primary col-12" (click)="modalPago()"><i class="fas fa-share-from-square"></i> Pagar y editar</button>
+          </div>
+          <div class="col-5 col-sm-4">
+            <span class="h4">Total: </span><span class="h6">{{precio}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Modal Categoria -->
+<app-categoria-modal tituloModal="Categoria" idModal="modalCategoria" (onSelectedCategoria)="selectCategoria($event)" (onSelectedSubCategoria)="selectSubCategoria($event)"></app-categoria-modal>
+
+<!-- Modal Subcategoria -->
+<app-subcategoria-modal tituloModal="Subcategoria" idModal="modalSubcategoria" (onSelectedSubCategoria)="selectSubCategoria($event)"></app-subcategoria-modal>
+
+<!-- Modal Ciudad -->
+<app-ciudad-modal tituloModal="Ciudad" idModal="modalCiudad" (onSelectedCiudad)="selectCiudad($event)"></app-ciudad-modal>
+
+<!-- Modal Pago -->
+<app-pay-modal tituloModal="Forma de Pago" idModal="modalPago" (onSelectedPayment)="selectPago($event)"></app-pay-modal>

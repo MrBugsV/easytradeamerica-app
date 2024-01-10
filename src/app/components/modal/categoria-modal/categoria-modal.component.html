@@ -1,0 +1,63 @@
+<!-- Modal Categoria -->
+<div class="modal fade" [id]="idModal" tabindex="-1" aria-labelledby="modalCategoriaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered ">
+      <div class="modal-content rounded-3">
+          <div class="modal-header bg-amarillo text-amarillo-header border-amarillo">
+              <label class="modal-title h5" id="modalCategoriaLabel">Seleccionar <strong>{{tituloModal}}</strong></label>
+              <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close" ><i class="fas fa-close fa-lg text-amarillo-header"></i></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-check form-switch form-check-reverse pb-3">
+              <label class="form-check-label" for="switchMisAnuncios">Incluir Subcategoria</label>
+              <input class="form-check-input" type="checkbox" id="switchMisAnuncios" [formControl]="controlSub" (change)="cargarTablaCategoria()">
+            </div>
+            <div class="table-responsive" [hidden]="!controlSub.value">
+              <table id="adCategoriaSubTable" datatable [dtOptions]="dtOptionsSub" [dtTrigger]="dtTriggerSub" class="table table-hover w-100 pt-2">
+                <thead>
+                  <tr class="">
+                    <th>cat</th>
+                    <th>bool</th>
+                    <th>con</th>
+                    <th>Subcategoria</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let categoria of listadoCategoriaSub;" [ngClass]="categoria.categoria?'group-cat':'group:sub'">
+                    <td>{{categoria.nombreCategoria}}</td>
+                    <td>{{categoria.categoria}}</td>
+                    <td>{{categoria.contenido}}</td>
+                    <td>{{categoria.nombre}}</td>
+                    <td>
+                      <button class="btn btn-primary" (click)="categoria.categoria?selectCategoria(categoria.objeto):selectSubcategoria(categoria.objeto)">
+                        <i class="fas fa-square-check" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-responsive" [hidden]="controlSub.value">
+              <table id="adCategoriaTable" datatable [dtOptions]="dtOptionsCat" [dtTrigger]="dtTriggerCat" class="table table-hover w-100 pt-2">
+                <thead>
+                  <tr class="">
+                    <th>Categoria</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let categoria of listadoCategoria;">
+                    <td>{{categoria.cat_name}}</td>
+                    <td>
+                      <button class="btn btn-primary" (click)="selectCategoria(categoria)">
+                        <i class="fas fa-square-check" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>

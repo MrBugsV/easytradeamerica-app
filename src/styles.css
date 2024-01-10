@@ -1,0 +1,176 @@
+/* You can add global styles to this file, and also import other style files */
+/* GENERALES SCC */
+html, body{
+	height: 100%;
+	overflow-y: hidden;
+	margin: 0px;
+	padding: 0px;
+}
+a, a:link, a:active, a:visited{
+	text-decoration: none !important;
+	color: black !important;
+}
+app-root{
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background: #e7e7e9;
+} 
+router-outlet+:last-child{
+	height: 100%;
+	display: flex;
+}	
+main {
+	flex: 1;
+	overflow-y: auto;
+}
+.icon-opcion-anuncio{
+	font-size: 50px;
+}
+.text-opcion-anuncio{
+	font-size: 12px;
+}
+.text-justify{
+	text-align:justify;
+}
+.bg-focus-img{
+	cursor: pointer;
+	background-color: rgba(80, 80, 80, 0.219);
+}
+.text-right{
+	text-align: right !important;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* .text-center{
+	text-align: center;
+} */
+/* HEADER SCC */
+app-header{
+	min-height: 9.575vh;
+	height: auto;
+}
+#header-logo{
+	height: 40px;
+}
+.border-header{
+	border-bottom: 1px solid #BA453F;
+}
+.border-nav-header{
+	border-top: 2px solid #BA453F;
+}
+.bg-menu{
+	background-color: #d2d2d4 !important;
+}
+/* FOOTER SCC */
+app-footer{
+	height: 4vh;
+}
+.bg-footer{
+	background-color: #2c2c80 !important; /* #1b1b54 #cfcedb #686891 #71142a #8b8bac #8c94ac #54547c #50132c*/
+	color: white !important; /* #ea1c23 */
+}
+.footer-title {
+	font-size: 16px;
+}
+/* HOME SCC */
+.bg-img-home{
+	width: 100%;
+	min-height: 40vh;
+	height: fit-content;
+	position: relative;
+	overflow: hidden;
+}
+.bg-img-home *{
+	position: relative;
+	z-index: 2;
+}
+.bg-img-home img{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0.65;
+	z-index: 1;
+}
+.titulo-home{
+	background-color: rgba(68, 68, 68, 0.651);
+	color: white;
+	text-align: center;
+}
+.group-cat td{
+	background-color: lightgray !important;
+}
+#carouselCategoria img,
+#carouselDestacado img{
+	height: 40vh;
+}
+.bg-carousel{
+	background-color: rgba(68, 68, 68, 0.651) !important;
+	color: white !important;
+	text-align: center;
+}
+.border-featured{
+	border: 2px solid #f51f55 !important;
+}
+.bg-featured{
+	background-color: #f84c77 !important;
+	color: white !important;
+}
+.bg-urgent{
+	background-color: #9e46f1 !important;
+	color: white !important;
+}
+.bg-feat-urg{
+	 background: linear-gradient(to bottom right, #f84c77, #9e46f1);
+	color: white !important;
+}
+#carouselAdjuntos img,
+#carouselAdjuntos img{
+	height: 40vh;
+}
+@media (min-width: 576px) {
+	app-header{
+		min-height: 8vh;
+		height: auto;
+	}
+	app-footer{
+		height: 3vh;
+	}
+	.footer-title {
+		font-size: 12px;
+	}
+	.bg-img-home{
+		min-height: 25vh;
+	}
+	#carouselCategoria img,
+	#carouselDestacado img{
+		height: 35vh;
+	}
+	#carouselAdjuntos img,
+	#carouselAdjuntos img{
+		height: 35vh;
+	}
+	.mx-sm-7 {
+		margin-right: 7rem!important;
+    margin-left: 7rem!important;
+	}
+	.px-sm-7 {
+		padding-right: 7rem!important;
+    padding-left: 7rem!important;
+	}
+}
+@media (max-width: 768px){
+	#carouselCategoria img,
+	#carouselDestacado img{
+		height: 35vh;
+	}
+	#carouselAdjuntos img,
+	#carouselAdjuntos img{
+		height: 35vh;
+	}
+}

@@ -1,0 +1,36 @@
+<header class="border-header d-flex align-content-center justify-content-end row m-0 bg-menu">
+  <nav class="navbar navbar-expand-sm col-12">
+    <img id="header-logo" src="../../../assets/images/logo/bg.png" class="img-fluid rounded justify-self-left ms-3 me-1" alt="Home Logo" (click)="onHome()">
+    <div class="nav-item my-1 pe-2 d-sm-none d-block">
+      {{usuario?usuario.name:''}}
+    </div>
+    <button class="navbar-toggler mx-3" id="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+      <i class="fas fa-tools"></i>
+    </button>
+    <div class="collapse navbar-collapse mx-2" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto align-content-center">
+        <li class="nav-item px-3 d-none d-sm-flex text-center btn" (click)="modalLogin()" *ngIf="!usuario"><a class="align-self-center"><i class="fas fa-right-to-bracket"></i> Iniciar sesión</a></li>
+        <li class="nav-item px-3 d-none d-sm-flex text-center btn" (click)="modalLogin('registro')" *ngIf="!usuario"><a class="align-self-center"><i class="fas fa-pen-to-square"></i> Registrarse</a></li>
+        <li class="nav-item px-3 d-none d-sm-flex text-center btn" *ngIf="usuario"><a class="align-self-center">{{usuario.name}}</a></li>
+        <li class="nav-item my-1 align-self-center d-none d-sm-block" *ngIf="usuario">
+          <div class="btn-group dropstart me-2">
+            <button class="btn btn-outline-secondary dropdown-toggle px-3" type="button" id="dropdownConfiguracion" data-bs-toggle="dropdown" aria-expanded="false">
+              Opciones
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownConfiguracion">
+              <li><a class="dropdown-item btn"><i class="fas fa-tools"></i> Generales</a></li>
+              <li><a class="dropdown-item btn" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item mt-2 mb-1 px-1 pt-1 d-sm-none d-block text-center border-nav-header" (click)="modalLogin()" *ngIf="!usuario" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"><a><i class="fas fa-right-to-bracket"></i> Iniciar sesión</a></li>
+        <li class="nav-item mt-2 mb-1 px-1 pt-1 d-sm-none d-block text-center border-nav-header" (click)="goToPublicar()" *ngIf="usuario" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"><a><i class="fas fa-right-to-bracket"></i> Publicar</a></li>
+        <hr class="border border-danger m-0 d-sm-none d-block">
+        <li class="nav-item mt-1 px-1 d-sm-none d-block text-center" (click)="modalLogin('registro')" *ngIf="!usuario" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"><a class="pb-0"><i class="fas fa-pen-to-square"></i> Registrarse</a></li>
+        <li class="nav-item mt-2 px-1 d-sm-none d-block text-center" *ngIf="usuario" (click)="logout()" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"><a class="pb-0"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<app-user-modal idModal="modalLogin"></app-user-modal>

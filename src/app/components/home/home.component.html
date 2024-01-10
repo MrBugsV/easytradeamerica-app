@@ -1,0 +1,137 @@
+<div class="row w-100 m-0 d-block">
+  <div class="bg-img-home col-12">
+    <form [formGroup]="formBuscar">
+      <div class="row m-3 mx-sm-7 align-items-center">
+        <div class="col-12 py-3 rounded rounded-4 titulo-home">
+          <h1 class="col-12 py-1">EasyTradeAmerica</h1>
+          <h5 class="col-12">Miles de anuncios en un click</h5>
+        </div>
+        <div class="col-12 pt-3 pb-1">
+          <div class="input-group">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="buscar" formControlName="buscar" placeholder="Buscar" (keyup.enter)="onBuscar()">
+              <label for="buscar">Buscar</label>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="onBuscar()"><i class="fas fa-search"></i> Buscar</button>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 py-1">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">Ciudad</span>
+            <input type="text" class="form-control" id="ciudad" formControlName="ciudad" readonly (click)="modalCiudad()" placeholder="Buscar...">
+            <button type="button" class="btn btn-warning" (click)="modalCiudad()"><i class="fas fa-magnifying-glass"></i></button>
+            <button type="button" class="btn btn-danger" (click)="onBorrarCiudad()"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 py-1">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">Precio</span>
+            <input type="number" class="form-control text-right" id="precioIni" formControlName="precioIni" placeholder="0" min="0" [max]="formBuscar.value['precioFin']">
+            <span class="input-group-text">$&nbsp;&nbsp;&nbsp;&nbsp;a</span>
+            <input type="number" class="form-control text-right" id="precioFin" formControlName="precioFin" placeholder="150" [min]="formBuscar.value['precioIni']">
+            <span class="input-group-text">$</span>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 py-1">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">Categoria</span>
+            <input type="text" class="form-control" id="categoria" formControlName="categoria" readonly (click)="modalCategoria()" placeholder="Buscar...">
+            <button type="button" class="btn btn-warning" (click)="modalCategoria()"><i class="fas fa-magnifying-glass"></i></button>
+            <button type="button" class="btn btn-danger" (click)="onBorrarCategoria()"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 py-1">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">Subcategoria</span>
+            <input type="text" class="form-control" id="subcategoria" formControlName="subcategoria" readonly (click)="modalSubcategoria()" placeholder="Buscar...">
+            <button type="button" class="btn btn-warning" (click)="modalSubcategoria()"><i class="fas fa-magnifying-glass"></i></button>
+            <button type="button" class="btn btn-danger" (click)="onBorrarSubcategoria()"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 py-1" *ngIf="usuario">
+          <div class="form-check form-switch text-white">
+            <label class="form-check-label" for="switchMisAnuncios">Mis Anuncios</label>
+            <input class="form-check-input" type="checkbox" id="switchMisAnuncios">
+          </div>
+        </div>
+      </div>
+    </form>
+    <img src="'../../../../../assets/images/background/background-home.jpg">
+  </div>
+  <div class="row m-0 my-2 px-4">
+    <div class="col-12 col-sm-6" *ngIf="listaProductos.length==0">
+      <div class="col-12 py-3 text-center">
+        <h2 class="m-0">Categorias</h2>
+      </div>
+      <div id="carouselCategoria" class="carousel slide col-12 px-4 pb-4" data-bs-ride="true">
+        <div class="carousel-indicators mb-4">
+          <button *ngFor="let categoria of listaCategorias; let i = index" type="button" data-bs-target="#carouselCategoria" [attr.data-bs-slide-to]="i" class="active" aria-current="true" [attr.aria-label]="'Slide '+i"></button>
+        </div>
+        <div class="carousel-inner">
+          <div *ngFor="let categoria of listaCategorias; let i = index" class="carousel-item" [ngClass]="{'active': i == 0 }">
+            <img [src]="categoria.picture" class="d-block w-100" [alt]="categoria.cat_name" (click)="selectCategoria(categoria); onBuscar()">
+            <div class="carousel-caption rounded rounded-4 py-2 bg-carousel mb-2">
+              <p class="m-0">{{categoria.cat_name}}</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev ps-4" type="button" data-bs-target="#carouselCategoria" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next pe-4" type="button" data-bs-target="#carouselCategoria" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Siguiente</span>
+        </button>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6" *ngIf="listaProductos.length==0">
+      <div class="col-12 py-3 text-center">
+        <h2 class="m-0">Destacados</h2> 
+      </div>
+      <div id="carouselDestacado" class="carousel slide col-12 px-4 pb-4" data-bs-ride="true">
+        <div class="carousel-indicators mb-4">
+          <button *ngFor="let destacado of listaDestacados; let i = index" type="button" data-bs-target="#carouselDestacado" [attr.data-bs-slide-to]="i" class="active" aria-current="true" [attr.aria-label]="'Slide '+i"></button>
+        </div>
+        <div class="carousel-inner">
+          <div *ngFor="let destacado of listaDestacados; let i = index" class="carousel-item" [ngClass]="{'active': i == 0 }" (click)="goToProducto(destacado)">
+            <img [src]="'../../../assets/images/productos/'+getProducto(destacado.screen_shot)" class="d-block w-100" [alt]="destacado.product_name" (click)="goToProducto(destacado)">
+            <div class="carousel-caption rounded rounded-4 py-2 bg-carousel mb-2">
+              <p class="m-0">{{destacado.product_name}}</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev ps-4" type="button" data-bs-target="#carouselDestacado" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next pe-4" type="button" data-bs-target="#carouselDestacado" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Siguiente</span>
+        </button>
+      </div>
+    </div>
+    <div class="col-12 py-3" *ngIf="listaProductos.length!=0">
+      <div class="row g-4 row-cols-2 row-cols-sm-4">
+        <div class="col" *ngFor="let producto of listaProductos">
+          <div class="card col-12 h-100" [ngClass]="producto.featured?'border-featured':''" (click)="goToProducto(producto)">
+            <img [src]="'../../../assets/images/productos/'+getProducto(producto.screen_shot)" [alt]="producto.product_name" class="card-img-top" height="112">
+            <div class="card-body align-items-center justify-content-center m-0 px-1" [ngClass]="producto.featured?(producto.urgent?'bg-feat-urg':'bg-featured'):(producto.urgent?'bg-urgent':'')">
+              <p class="card-text text-center m-0 mb-1">{{producto.product_name}}</p>
+              <h6 class="card-text text-center" *ngIf="producto.urgent"><i class="far fa-clock"></i> limitado</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Ciudad -->
+<app-ciudad-modal tituloModal="Ciudad" idModal="modalCiudad" (onSelectedCiudad)="selectCiudad($event)"></app-ciudad-modal>
+
+<!-- Modal Categoria -->
+<app-categoria-modal tituloModal="Categoria" idModal="modalCategoria" (onSelectedCategoria)="selectCategoria($event)" (onSelectedSubCategoria)="selectSubCategoria($event)"></app-categoria-modal>
+
+<!-- Modal Subcategoria -->
+<app-subcategoria-modal tituloModal="Subcategoria" idModal="modalSubcategoria" (onSelectedSubCategoria)="selectSubCategoria($event)"></app-subcategoria-modal>
