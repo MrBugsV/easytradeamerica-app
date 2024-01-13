@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
+import { errorObserver } from 'src/app/Func/ResponseFuntions';
 import { AdCategoryMainModel, AdCategoryMainResponse, CategoriaModal } from 'src/app/model/ad_catagory_main';
 import { AdCategorySubModel, AdCategorySubResponse,  } from 'src/app/model/ad_catagory_sub';
 import { SubcategoriaService } from 'src/app/service/subcategoria.service';
@@ -79,29 +80,10 @@ export class SubcategoriaModalComponent implements OnDestroy{
         this.listadoSubcategoria=response.DATA;
         this.dtTrigger.next('');
       },
-      error: (err: any) => this.errorObserver(err)
+      error: (err: any) => errorObserver(err)
     });
   }
   selectSubcategoria(subcategoria:any){
     this.onSelectedSubCategoria.emit(subcategoria);
-  }
-  errorObserver(err: any) {
-    let errorMessage = '';
-    if (err.error instanceof ErrorEvent) {
-      errorMessage = err.error.message;
-    } else {
-      if(err.status == 401) {
-        errorMessage = 'Código: '+err.status+' Mensaje: '+err.error.MESSAGE;
-      } else {
-        errorMessage = 'Código: '+err.status+' Mensaje: '+err.message;
-      }
-    }
-    Swal.fire({
-      title: 'Error!',
-      text: 'Error interno del servidor. ' + errorMessage,
-      icon: 'error',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Aceptar'
-    });
   }
 }

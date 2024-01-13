@@ -24,9 +24,9 @@ export class PayModalComponent {
         next:(response:AdPaymentResponse)=>{
           if (response.STATUS=="OK") {
             this.listaPago=response.DATA;
-          }else errorObserver(response)
+          }else errorResponse(response)
         },
-        error:err=>errorResponse(err)
+        error:err=>errorObserver(err)
       })
     }
 

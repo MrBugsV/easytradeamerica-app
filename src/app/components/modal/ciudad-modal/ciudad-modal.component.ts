@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
+import { errorObserver } from 'src/app/Func/ResponseFuntions';
 import { AdCitiesModel, AdCitiesResponse } from 'src/app/model/ad_cities';
 import { CiudadService } from 'src/app/service/ciudad.service';
 import Swal from 'sweetalert2';
@@ -76,29 +77,10 @@ export class CiudadModalComponent implements OnDestroy{
         this.listadoCiudad = response.DATA;
         this.dtTrigger.next('');
       },
-      error: (err: any) => this.errorObserver(err)
+      error: (err: any) => errorObserver(err)
     });
   }
   selectCiudad(ciudad:AdCitiesModel){
     this.onSelectedCiudad.emit(ciudad);
-  }
-  errorObserver(err: any) {
-    let errorMessage = '';
-    if (err.error instanceof ErrorEvent) {
-      errorMessage = err.error.message;
-    } else {
-      if(err.status == 401) {
-        errorMessage = 'Código: '+err.status+' Mensaje: '+err.error.MESSAGE;
-      } else {
-        errorMessage = 'Código: '+err.status+' Mensaje: '+err.message;
-      }
-    }
-    Swal.fire({
-      title: 'Error!',
-      text: 'Error interno del servidor. ' + errorMessage,
-      icon: 'error',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Aceptar'
-    });
   }
 }

@@ -141,8 +141,6 @@ export class ProductComponent implements AfterViewInit, OnInit{
   }
 
   modalPago(){
-    console.log(this.formProducto.value);
-    
     if (this.validForm()) {
       (jQuery('#modalPago') as any).modal('show');
     }
@@ -163,10 +161,10 @@ export class ProductComponent implements AfterViewInit, OnInit{
             });
             this.router.navigate(["home"])
           }else{
-            errorObserver(response)
+            errorResponse(response)
           }
         },
-        error:err=>errorResponse(err)
+        error:err=>errorObserver(err)
       })
     }else{
       this.productService.putProducto(this.formProducto.value).subscribe({
@@ -181,10 +179,10 @@ export class ProductComponent implements AfterViewInit, OnInit{
             });
             this.router.navigate(["home"])
           }else{
-            errorObserver(response)
+            errorResponse(response)
           }
         },
-        error:err=>errorResponse(err)
+        error:err=>errorObserver(err)
       })
     }
   }
@@ -289,10 +287,10 @@ export class ProductComponent implements AfterViewInit, OnInit{
               });
               this.router.navigate(["home"])
             }else{
-              errorObserver(response)
+              errorResponse(response)
             }
           },
-          error:err=>errorResponse(err)
+          error:err=>errorObserver(err)
         })
       }else{
       this.productService.putProducto(this.formProducto.value).subscribe({
@@ -307,10 +305,10 @@ export class ProductComponent implements AfterViewInit, OnInit{
             });
             this.router.navigate(["home"])
           }else{
-            errorObserver(response)
+            errorResponse(response)
           }
         },
-        error:err=>errorResponse(err)
+        error:err=>errorObserver(err)
       })
       }
     }
