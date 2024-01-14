@@ -11,19 +11,9 @@ export function errorResponse(response:any){
 }
 
 export function errorObserver(err: any) {
-  let errorMessage = '';
-  if (err.error instanceof ErrorEvent) {
-    errorMessage = err.error.message;
-  } else {
-    if(err.status == 401) {
-      errorMessage = 'Código: '+err.status+' Mensaje: '+err.error.MESSAGE;
-    } else {
-      errorMessage = 'Código: '+err.status+' Mensaje: '+err.message;
-    }
-  }
   Swal.fire({
     title: 'Error!',
-    text: 'Error interno del servidor. ' + errorMessage,
+    text: 'Error interno del servidor.',
     icon: 'error',
     confirmButtonColor: '#3085d6',
     confirmButtonText: 'Aceptar'

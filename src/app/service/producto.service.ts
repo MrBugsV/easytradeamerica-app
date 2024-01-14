@@ -16,14 +16,15 @@ export class ProductoService {
     this.urlProducto=`${environment.url}/producto`
   }
 
-  getProductos(producto:string|null,idCat:string|null,idSub:string|null,idCiu:string|null):Observable<AdProductResponse> {
+  getProductos(producto:string|null,idCat:string|null,idSub:string|null,idCiu:string|null,preIni:number=0,preFin:number|null):Observable<AdProductResponse> {
     let query=""
-    if (producto||idCat||idSub||idCiu) {
+    if (producto||idCat||idSub||idCiu||preIni||preFin) {
       query='?'
               +(producto?`producto=${producto}&`:'')
               +(idCat?`idCat=${idCat}&`:'')
               +(idSub?`idSub=${idSub}&`:'')
               +(idCiu?`idCiu=${idCiu}&`:'')
+              +(preFin?`preIni=${preIni}&preFin=${preFin}&`:'')
     }
     return this.http.get<AdProductResponse>(`${this.urlProducto}${query}`)
   }

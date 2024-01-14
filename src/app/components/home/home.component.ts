@@ -13,6 +13,7 @@ import { userInfo } from 'os';
 import { Router } from '@angular/router';
 import { ObjectEncryption } from 'src/app/utils/object_encryption';
 import { errorObserver, errorResponse } from 'src/app/Func/ResponseFuntions';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -146,10 +147,19 @@ export class HomeComponent implements AfterViewInit{
     this.productoService.getProductos(this.formBuscar.value['buscar']
                                         ,this.formBuscar.value['categoria_id']
                                         ,this.formBuscar.value['subcategoria_id']
-                                        ,this.formBuscar.value['ciudad_id']).subscribe({
+                                        ,this.formBuscar.value['ciudad_id']
+                                        ,this.formBuscar.value['precioIni']
+                                        ,this.formBuscar.value['precioFin']).subscribe({
         next:(response:AdProductResponse)=>{
           if (response.STATUS=="OK") {
             this.listaProductos=response.DATA
+            if (this.listaProductos.length==0) 
+              Swal.fire({
+                text: "No se encontro ningun producto con las caracteristicas solicitadas",
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+              });
           }else
             errorResponse(response)
         },
