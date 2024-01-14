@@ -13,7 +13,7 @@
         </div>
         <div class="carousel-inner">
           <div *ngFor="let productoStr of listaProductos; let i = index" class="carousel-item" [ngClass]="{'active': i == 0 }">
-            <img [src]="'../../../assets/images/productos/'+productoStr" class="d-block w-100" [alt]="productoStr">
+            <img src="{{productoStr}}" class="d-block w-100" [alt]="productoStr">
           </div>
         </div>
         <button class="carousel-control-prev ps-4" type="button" data-bs-target="#carouselAdjuntos" data-bs-slide="prev">

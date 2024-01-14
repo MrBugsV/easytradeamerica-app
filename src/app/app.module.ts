@@ -16,6 +16,11 @@ import { SubcategoriaModalComponent } from './components/modal/subcategoria-moda
 import { UserModalComponent } from './components/modal/user-modal/user-modal.component';
 import { ProductComponent } from './components/product/product.component';
 import { PayModalComponent } from './components/modal/pay-modal/pay-modal.component';
+import { provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp } from 'firebase/app';
+import environment from 'src/environments/environment';
+import { provideStorage } from '@angular/fire/storage';
+import { getStorage } from 'firebase/storage';
 
 @NgModule({
   declarations: [
@@ -42,7 +47,9 @@ import { PayModalComponent } from './components/modal/pay-modal/pay-modal.compon
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    provideFirebaseApp(()=>initializeApp(environment.firebase)),
+    provideStorage(()=>getStorage())
   ],
   providers: [
   ],

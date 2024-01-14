@@ -39,6 +39,8 @@ export interface AdProductModel {
   hide: string;
   created_at: Date;
   updated_at: Date;
+
+  archivos:File[];
 }
 
 export interface AdProductResponse {

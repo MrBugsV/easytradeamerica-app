@@ -95,7 +95,7 @@
         </div>
         <div class="carousel-inner">
           <div *ngFor="let destacado of listaDestacados; let i = index" class="carousel-item" [ngClass]="{'active': i == 0 }" (click)="goToProducto(destacado)">
-            <img [src]="'../../../assets/images/productos/'+getProducto(destacado.screen_shot)" class="d-block w-100" [alt]="destacado.product_name" (click)="goToProducto(destacado)">
+            <img [src]="getProducto(destacado.screen_shot)" class="d-block w-100" [alt]="destacado.product_name" (click)="goToProducto(destacado)">
             <div class="carousel-caption rounded rounded-4 py-2 bg-carousel mb-2">
               <p class="m-0">{{destacado.product_name}}</p>
             </div>
@@ -115,7 +115,7 @@
       <div class="row g-4 row-cols-2 row-cols-sm-4">
         <div class="col" *ngFor="let producto of listaProductos">
           <div class="card col-12 h-100" [ngClass]="producto.featured?'border-featured':''" (click)="goToProducto(producto)">
-            <img [src]="'../../../assets/images/productos/'+getProducto(producto.screen_shot)" [alt]="producto.product_name" class="card-img-top" height="112">
+            <img src="{{getProducto(producto.screen_shot)}}" [alt]="producto.product_name" class="card-img-top" height="112">
             <div class="card-body align-items-center justify-content-center m-0 px-1" [ngClass]="producto.featured?(producto.urgent?'bg-feat-urg':'bg-featured'):(producto.urgent?'bg-urgent':'')">
               <p class="card-text text-center m-0 mb-1">{{producto.product_name}}</p>
               <h6 class="card-text text-center" *ngIf="producto.urgent"><i class="far fa-clock"></i> limitado</h6>

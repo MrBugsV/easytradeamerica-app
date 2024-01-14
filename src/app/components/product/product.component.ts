@@ -29,6 +29,7 @@ export class ProductComponent implements AfterViewInit, OnInit{
   formProducto:FormGroup=new AdProductForm()
 
   listaAdjuntos:any=[]
+  adjuntos:File[]=[]
   listaProductos:string[]=[]
 
   @ViewChild(SubcategoriaModalComponent) subcategoriaModal!:SubcategoriaModalComponent;
@@ -111,7 +112,7 @@ export class ProductComponent implements AfterViewInit, OnInit{
   }
 
   modalSubcategoria(){
-    this.subcategoriaModal?.showModal(this.formProducto.value['categoria_id']);
+    this.subcategoriaModal?.showModal(this.formProducto.value['category']);
   }
 
   selectSubCategoria(subcategoria:AdCategorySubModel){
@@ -146,10 +147,10 @@ export class ProductComponent implements AfterViewInit, OnInit{
     }
   }
 
-  selectPago(pago:AdPaymentModel){
+  async selectPago(pago:AdPaymentModel){
     (jQuery('#modalPago') as any).modal('hide');
     if (this.action=="new") {
-      this.productService.postProducto(this.formProducto.value).subscribe({
+      (await this.productService.postProducto(this.formProducto.value, this.adjuntos)).subscribe({
         next:(response:AdProductResponse)=>{
           if (response.STATUS=="OK") {
             Swal.fire({
@@ -167,7 +168,7 @@ export class ProductComponent implements AfterViewInit, OnInit{
         error:err=>errorObserver(err)
       })
     }else{
-      this.productService.putProducto(this.formProducto.value).subscribe({
+      this.productService.putProducto(this.formProducto.value, this.adjuntos).subscribe({
         next:(response:AdProductResponse)=>{
           if (response.STATUS=="OK") {
             Swal.fire({
@@ -272,10 +273,10 @@ export class ProductComponent implements AfterViewInit, OnInit{
     }
   }
 
-  onPublicar(){
+  async onPublicar(){
     if (this.validForm()) {
       if (this.action=="new") {
-        this.productService.postProducto(this.formProducto.value).subscribe({
+        (await this.productService.postProducto(this.formProducto.value,this.adjuntos)).subscribe({
           next:(response:AdProductResponse)=>{
             if (response.STATUS=="OK") {
               Swal.fire({
@@ -293,7 +294,7 @@ export class ProductComponent implements AfterViewInit, OnInit{
           error:err=>errorObserver(err)
         })
       }else{
-      this.productService.putProducto(this.formProducto.value).subscribe({
+      this.productService.putProducto(this.formProducto.value, this.adjuntos).subscribe({
         next:(response:AdProductResponse)=>{
           if (response.STATUS=="OK") {
             Swal.fire({
@@ -317,6 +318,7 @@ export class ProductComponent implements AfterViewInit, OnInit{
   async uploadFile(event: any) {
     if (event.target.files.length > 0) {
       let listaArchivos=Array.from<File>(event.target.files).slice(event.target.files-3,3);
+      this.adjuntos=listaArchivos;
       let temp:any=[]
       for (let i = 0; i < listaArchivos.length; i++) {
         const archivo = listaArchivos[i];

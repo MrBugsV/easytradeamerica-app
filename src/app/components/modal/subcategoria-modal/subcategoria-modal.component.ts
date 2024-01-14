@@ -39,6 +39,8 @@ export class SubcategoriaModalComponent implements OnDestroy{
 
   public showModal(id:string|null=""){
     this.idCategoria=id?id:"";
+    console.log(id);
+    
     (jQuery(`#${this.idModal}`) as any).modal('show');
     this.cargarTablaCategoria();
   }
