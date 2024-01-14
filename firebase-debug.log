@@ -1,1 +1,59 @@
 [debug] [2024-01-14T23:48:50.733Z] ----------------------------------------------------------------------
+[debug] [2024-01-14T23:48:50.736Z] Command:       C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-01-14T23:48:50.736Z] CLI Version:   13.0.3
+[debug] [2024-01-14T23:48:50.736Z] Platform:      win32
+[debug] [2024-01-14T23:48:50.736Z] Node Version:  v20.10.0
+[debug] [2024-01-14T23:48:50.736Z] Time:          Sun Jan 14 2024 18:48:50 GMT-0500 (hora de Ecuador)
+[debug] [2024-01-14T23:48:50.737Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-01-14T23:48:50.808Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-01-14T23:48:50.809Z] > authorizing via signed-in user (bryanespejocan@gmail.com)
+[debug] [2024-01-14T23:48:50.809Z] [iam] checking project easyxocc-app for permissions ["firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2024-01-14T23:48:50.810Z] > refreshing access token with scopes: []
+[debug] [2024-01-14T23:48:50.812Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-01-14T23:48:50.812Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-01-14T23:48:51.197Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-01-14T23:48:51.197Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-01-14T23:48:51.206Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/easyxocc-app:testIamPermissions [none]
+[debug] [2024-01-14T23:48:51.206Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/easyxocc-app:testIamPermissions x-goog-quota-user=projects/easyxocc-app
+[debug] [2024-01-14T23:48:51.206Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/easyxocc-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2024-01-14T23:48:51.783Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/easyxocc-app:testIamPermissions 200
+[debug] [2024-01-14T23:48:51.784Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/easyxocc-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2024-01-14T23:48:51.785Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/easyxocc-app [none]
+[debug] [2024-01-14T23:48:52.221Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/easyxocc-app 200
+[debug] [2024-01-14T23:48:52.221Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/easyxocc-app {"projectId":"easyxocc-app","projectNumber":"378230923632","displayName":"easyxocc-app","name":"projects/easyxocc-app","resources":{"hostingSite":"easyxocc-app","storageBucket":"easyxocc-app.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_e16ef856-ff1d-4205-b709-9738b15a8f2b"}
+[info] 
+[info] === Deploying to 'easyxocc-app'...
+[info] 
+[info] i  deploying storage, hosting 
+[info] i  storage: ensuring required API firebasestorage.googleapis.com is enabled... 
+[debug] [2024-01-14T23:48:52.235Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/easyxocc-app/services/firebasestorage.googleapis.com [none]
+[debug] [2024-01-14T23:48:52.235Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/easyxocc-app/services/firebasestorage.googleapis.com x-goog-quota-user=projects/easyxocc-app
+[debug] [2024-01-14T23:48:52.842Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/easyxocc-app/services/firebasestorage.googleapis.com 200
+[debug] [2024-01-14T23:48:52.842Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/easyxocc-app/services/firebasestorage.googleapis.com [omitted]
+[info] +  storage: required API firebasestorage.googleapis.com is enabled 
+[debug] [2024-01-14T23:48:52.843Z] >>> [apiv2][query] GET https://firebasestorage.googleapis.com/v1alpha/projects/easyxocc-app/defaultBucket [none]
+[debug] [2024-01-14T23:48:53.414Z] <<< [apiv2][status] GET https://firebasestorage.googleapis.com/v1alpha/projects/easyxocc-app/defaultBucket 200
+[debug] [2024-01-14T23:48:53.414Z] <<< [apiv2][body] GET https://firebasestorage.googleapis.com/v1alpha/projects/easyxocc-app/defaultBucket {"name":"projects/easyxocc-app/defaultBucket","location":"US","bucket":{"name":"projects/easyxocc-app/buckets/easyxocc-app.appspot.com"}}
+[info] i  firebase.storage: checking storage.rules for compilation errors... 
+[debug] [2024-01-14T23:48:53.418Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/easyxocc-app:test [none]
+[debug] [2024-01-14T23:48:53.418Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/easyxocc-app:test [omitted]
+[debug] [2024-01-14T23:48:53.801Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/easyxocc-app:test 200
+[debug] [2024-01-14T23:48:53.801Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/easyxocc-app:test {}
+[info] +  firebase.storage: rules file storage.rules compiled successfully 
+[debug] [2024-01-14T23:48:53.807Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/easyxocc-app/versions [none]
+[debug] [2024-01-14T23:48:53.807Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/easyxocc-app/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2024-01-14T23:48:54.800Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/easyxocc-app/versions 200
+[debug] [2024-01-14T23:48:54.800Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/easyxocc-app/versions {"name":"projects/378230923632/sites/easyxocc-app/versions/eb7f782bd591f354","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2024-01-14T23:48:54.805Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/easyxocc-app/releases pageSize=10&pageToken=
+[debug] [2024-01-14T23:48:55.063Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/easyxocc-app/releases 200
+[debug] [2024-01-14T23:48:55.063Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/easyxocc-app/releases {"releases":[{"name":"projects/easyxocc-app/releases/firebase.storage/easyxocc-app.appspot.com","rulesetName":"projects/easyxocc-app/rulesets/1e726d5f-6435-4243-8746-65064af0d7b2","createTime":"2024-01-14T20:25:44.779834Z","updateTime":"2024-01-14T20:26:01.164647Z"}]}
+[debug] [2024-01-14T23:48:55.064Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/easyxocc-app/rulesets/1e726d5f-6435-4243-8746-65064af0d7b2 [none]
+[debug] [2024-01-14T23:48:55.292Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/easyxocc-app/rulesets/1e726d5f-6435-4243-8746-65064af0d7b2 200
+[debug] [2024-01-14T23:48:55.292Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/easyxocc-app/rulesets/1e726d5f-6435-4243-8746-65064af0d7b2 [omitted]
+[debug] [2024-01-14T23:48:55.297Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/easyxocc-app [none]
+[debug] [2024-01-14T23:48:55.515Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/easyxocc-app 200
+[debug] [2024-01-14T23:48:55.516Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/easyxocc-app {"projectId":"easyxocc-app","projectNumber":"378230923632","displayName":"easyxocc-app","name":"projects/easyxocc-app","resources":{"hostingSite":"easyxocc-app","storageBucket":"easyxocc-app.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_e16ef856-ff1d-4205-b709-9738b15a8f2b"}
+[debug] [2024-01-14T23:48:55.518Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/378230923632:getIamPolicy [none]
+[debug] [2024-01-14T23:48:55.781Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/378230923632:getIamPolicy 200
+[debug] [2024-01-14T23:48:55.781Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/378230923632:getIamPolicy {"version":1,"etag":"BwYO7bNpMxs=","bindings":[{"role":"roles/cloudfunctions.developer","members":["serviceAccount:github-action-738660098@easyxocc-app.iam.gserviceaccount.com"]},{"role":"roles/editor","members":["serviceAccount:easyxocc-app@appspot.gserviceaccount.com"]},{"role":"roles/firebase.managementServiceAgent","members":["serviceAccount:firebase-service-account@firebase-sa-management.iam.gserviceaccount.com","serviceAccount:service-378230923632@gcp-sa-firebase.iam.gserviceaccount.com"]},{"role":"roles/firebase.sdkAdminServiceAgent","members":["serviceAccount:firebase-adminsdk-e9dka@easyxocc-app.iam.gserviceaccount.com"]},{"role":"roles/firebaseauth.admin","members":["serviceAccount:github-action-738660098@easyxocc-app.iam.gserviceaccount.com"]},{"role":"roles/firebasehosting.admin","members":["serviceAccount:github-action-738660098@easyxocc-app.iam.gserviceaccount.com"]},{"role":"roles/firebasestorage.serviceAgent","members":["serviceAccount:service-378230923632@gcp-sa-firebasestorage.iam.gserviceaccount.com"]},{"role":"roles/firestore.serviceAgent","members":["serviceAccount:service-378230923632@gcp-sa-firestore.iam.gserviceaccount.com"]},{"role":"roles/iam.serviceAccountTokenCreator","members":["serviceAccount:firebase-adminsdk-e9dka@easyxocc-app.iam.gserviceaccount.com"]},{"role":"roles/owner","members":["user:bryanespejocan@gmail.com"]},{"role":"roles/run.viewer","members":["serviceAccount:github-action-738660098@easyxocc-app.iam.gserviceaccount.com"]},{"role":"roles/serviceusage.apiKeysViewer","members":["serviceAccount:github-action-738660098@easyxocc-app.iam.gserviceaccount.com"]},{"role":"roles/storage.admin","members":["serviceAccount:firebase-adminsdk-e9dka@easyxocc-app.iam.gserviceaccount.com"]}]}
