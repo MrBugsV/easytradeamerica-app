@@ -43,6 +43,14 @@ export interface AdProductModel {
   archivos:File[];
 }
 
+export interface AdjuntoModel{
+  contenido: string | ArrayBuffer | null;
+  principal: number;
+  fromDB:boolean;
+  name:string;
+  file: File;
+}
+
 export interface AdProductResponse {
   STATUS:string,
   MESSAGE:string,

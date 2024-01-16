@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdCategoryMainModel } from 'src/app/model/ad_catagory_main';
-import { AdProductForm, AdProductResponse } from 'src/app/model/ad_product_model';
+import { AdProductForm, AdProductResponse, AdjuntoModel } from 'src/app/model/ad_product_model';
 import { AdUserModel } from 'src/app/model/ad_user_model';
 import { ObjectEncryption } from 'src/app/utils/object_encryption';
 import { SubcategoriaModalComponent } from '../modal/subcategoria-modal/subcategoria-modal.component';
@@ -28,9 +28,9 @@ export class ProductComponent implements AfterViewInit, OnInit{
 
   formProducto:FormGroup=new AdProductForm()
 
-  listaAdjuntos:any=[]
-  adjuntos:File[]=[]
-  listaProductos:string[]=[]
+  listaDelete:AdjuntoModel[]=[]
+  listaAdjuntos:AdjuntoModel[]=[]
+  principal!:AdjuntoModel;
 
   @ViewChild(SubcategoriaModalComponent) subcategoriaModal!:SubcategoriaModalComponent;
 
@@ -70,6 +70,9 @@ export class ProductComponent implements AfterViewInit, OnInit{
           if (response.STATUS=="OK") {
             const producto=response.DATA[0];
             this.formProducto.patchValue(producto);
+            this.formProducto.patchValue({
+              archivos:producto.screen_shot
+            });
             if (producto.user_id==this.usuario?.id) {
               this.formProducto.patchValue({
                 user_id:this.usuario.id,
@@ -80,7 +83,9 @@ export class ProductComponent implements AfterViewInit, OnInit{
             }else{
               this.action="buy";
             }
-            this.listaProductos=producto.screen_shot.split(",")
+            this.listaAdjuntos=producto.screen_shot.split(",").map<AdjuntoModel>((url:string, i)=>{
+              return { contenido:url, fromDB:true, principal:i } as AdjuntoModel
+            })
           }else
             errorResponse(response);
         },
@@ -150,7 +155,7 @@ export class ProductComponent implements AfterViewInit, OnInit{
   async selectPago(pago:AdPaymentModel){
     (jQuery('#modalPago') as any).modal('hide');
     if (this.action=="new") {
-      (await this.productService.postProducto(this.formProducto.value, this.adjuntos)).subscribe({
+      (await this.productService.postProducto(this.formProducto.value, this.listaAdjuntos)).subscribe({
         next:(response:AdProductResponse)=>{
           if (response.STATUS=="OK") {
             Swal.fire({
@@ -168,7 +173,7 @@ export class ProductComponent implements AfterViewInit, OnInit{
         error:err=>errorObserver(err)
       })
     }else{
-      this.productService.putProducto(this.formProducto.value, this.adjuntos).subscribe({
+      (await this.productService.putProducto(this.formProducto.value, this.listaAdjuntos, this.listaDelete)).subscribe({
         next:(response:AdProductResponse)=>{
           if (response.STATUS=="OK") {
             Swal.fire({
@@ -242,10 +247,33 @@ export class ProductComponent implements AfterViewInit, OnInit{
   }
 
   onBorrarAdjunto(i:number){
-    this.listaAdjuntos.splice(i, 1);
+    const adjunto = this.listaAdjuntos.splice(i, 1)[0];
+
+    if (adjunto.fromDB) 
+      this.listaDelete.push(adjunto);
+    
+    this.listaAdjuntos.sort((a, b)=>{
+      if (a == this.principal) 
+        return -1;
+      
+      if (b == this.principal) 
+        return 1;
+      
+      return 0;
+    })
+    
     if (this.listaAdjuntos.length>0&&!this.listaAdjuntos.some((archivo:any)=>archivo.principal.value)) {
-      this.listaAdjuntos[0].principal.setValue(0)
+      this.listaAdjuntos[0].principal=0
+      this.principal=this.listaAdjuntos[0];
     }
+    if (this.listaAdjuntos.length==0) 
+      this.formProducto.patchValue({
+        archivos:null
+      })
+  }
+
+  cambioPrincipal(i:AdjuntoModel){
+    this.principal=i;
   }
 
   onChangeBasico(){
@@ -275,8 +303,17 @@ export class ProductComponent implements AfterViewInit, OnInit{
 
   async onPublicar(){
     if (this.validForm()) {
+      this.listaAdjuntos.sort((a, b)=>{
+        if (a == this.principal) 
+          return -1;
+        
+        if (b == this.principal) 
+          return 1;
+        
+        return 0;
+      })
       if (this.action=="new") {
-        (await this.productService.postProducto(this.formProducto.value,this.adjuntos)).subscribe({
+        (await this.productService.postProducto(this.formProducto.value,this.listaAdjuntos)).subscribe({
           next:(response:AdProductResponse)=>{
             if (response.STATUS=="OK") {
               Swal.fire({
@@ -294,7 +331,7 @@ export class ProductComponent implements AfterViewInit, OnInit{
           error:err=>errorObserver(err)
         })
       }else{
-      this.productService.putProducto(this.formProducto.value, this.adjuntos).subscribe({
+      (await this.productService.putProducto(this.formProducto.value, this.listaAdjuntos, this.listaDelete)).subscribe({
         next:(response:AdProductResponse)=>{
           if (response.STATUS=="OK") {
             Swal.fire({
@@ -316,20 +353,32 @@ export class ProductComponent implements AfterViewInit, OnInit{
   }
 
   async uploadFile(event: any) {
-    if (event.target.files.length > 0) {
-      let listaArchivos=Array.from<File>(event.target.files).slice(event.target.files-3,3);
-      this.adjuntos=listaArchivos;
-      let temp:any=[]
+    if (event.target.files.length > 0 && this.listaAdjuntos.length+event.target.files.length<=3) {
+      this.listaAdjuntos.sort((a, b)=>{
+        if (a == this.principal) 
+          return -1;
+        
+        if (b == this.principal) 
+          return 1;
+        
+        return 0;
+      })
+      
+      const numAdj=3-this.listaAdjuntos.length;
+      let listaArchivos=Array.from<File>(event.target.files).slice(event.target.files-numAdj,numAdj);
       for (let i = 0; i < listaArchivos.length; i++) {
         const archivo = listaArchivos[i];
-        temp.push({ nombre: archivo.name, extension: archivo.type, contenido: await this.fileToBase64(archivo), principal:new FormControl(0)});
+        this.listaAdjuntos.push({name: archivo.name,contenido: await this.fileToBase64(archivo), principal:i, file:archivo} as AdjuntoModel);
       }
-      this.listaAdjuntos=temp
-      // this.formProducto.patchValue({
-      //   DTRAD_NOMBRE_ADJ: file.name,
-      //   DTRAD_EXTENSION_ADJ: file.type,
-      //   DTRAD_CONTENIDO_ADJ: await this.fileToBase64(file),
-      // });
+      this.principal=this.listaAdjuntos[0]
+    }else{
+      Swal.fire({
+        title: 'Error!',
+        text: "Solo puede cargar 3 imagenes en total",
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Aceptar'
+      });
     }
   }
 
